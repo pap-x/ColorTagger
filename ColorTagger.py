@@ -55,7 +55,8 @@ for i in range(width):							#Distance from main colors for every pixel
         for color, rgb in sorted(color_rgb.items()):
             color_dist[i][j][color_count-1] = calcDist3D(image_rgb[i,j], rgb);
             color_count = color_count + 1
-      
+
+#************************FIRST METHOD******************************			
 total_dist = {}
 
 color_count=1
@@ -69,6 +70,25 @@ for color, rgb in sorted(color_rgb.items()):			#Total distance of every pixel fr
       
 sorted_total_dist = sorted(total_dist.iteritems(), key=operator.itemgetter(1))				#Sorts the list of main colors in ascenting order
 
-print "The main colors of this image are " + sorted_total_dist[0][0] + ", " + sorted_total_dist[1][0] + " and " + sorted_total_dist[2][0]+"."
+print "The main colors of this image with the 1st method are " + sorted_total_dist[0][0] + ", " + sorted_total_dist[1][0] + " and " + sorted_total_dist[2][0]+"."
+
+#***********************SECOND METHOD******************************
+main_color = []
+color_dict = {}
+
+for color, rgb in sorted(color_rgb.items()):
+    color_dict[color] = 0
+
+for i in range(width):
+    for j in range(height):
+        color_dict[color_dist[i][j].index(min(color_dist[i][j]))+1] += 1		#Classifies the pixel as a color
+           
+sorted_total_dist = sorted(color_dict.iteritems(), key=operator.itemgetter(1))     
+   
+if color_names[sorted_total_dist[-1][0]]>30 and color_names[sorted_total_dist[-2][0]]>30 and color_names[sorted_total_dist[-3][0]]>30:
+    print "The main colors of this image with the 2nd method are " + color_names[sorted_total_dist[-1][0]] + ", " + color_names[sorted_total_dist[-2][0]] + " and " + color_names[sorted_total_dist[-3][0]] + "."
+else:
+    print "The main color of this image with the 2nd method is " + color_names[sorted_total_dist[-1][0]] + "."      
+
 
             
